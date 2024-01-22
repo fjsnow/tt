@@ -1,7 +1,7 @@
 import pwa from "next-pwa";
 
 const withPWA = pwa({
-  dest: "public",
+    dest: "public",
 });
 
 const nextConfig = {};

@@ -1,18 +1,18 @@
 {
-  "name": "tinytodo",
-  "short_name": "tt",
-  "description": "a tiny, simple, local-first todo list",
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "fullscreen",
-  "orientation": "portrait",
-  "id": "/",
-  "scope": "/",
-  "start_url": "/",
-  "icons": [
-    {
-      "src": "logos/1024.png",
-      "sizes": "1024x1024"
-    }
-  ]
+    "name": "tinytodo",
+    "short_name": "tt",
+    "description": "a tiny, simple, local-first todo list",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "display": "fullscreen",
+    "orientation": "portrait",
+    "id": "/",
+    "scope": "/",
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "logos/1024.png",
+            "sizes": "1024x1024"
+        }
+    ]
 }

@@ -6,20 +6,20 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "tinytodo",
-  description: "A tiny, local todo list app.",
-  manifest: "/manifest.json",
-  icons: "/favicon.ico?v=1",
+    title: "tinytodo",
+    description: "A tiny, local todo list app.",
+    manifest: "/manifest.json",
+    icons: "/favicon.ico?v=1",
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <body className={inter.className}>{children}</body>
+        </html>
+    );
 }
