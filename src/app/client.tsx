@@ -22,8 +22,14 @@ export const Lists = () => {
 
     const newTodoRef = useRef<HTMLInputElement>(null);
 
-    const addNewTodo = (todo: Todo) => {
+    const addTodo = (todo: Todo) => {
         setTodos([...todos, todo]);
+    };
+
+    const removeTodo = (id: number) => {
+        todos.splice(todos.indexOf(todos.find((todo) => todo.id === id)!), 1);
+        setTodos([...todos]);
+        save(todos);
     };
 
     const onDragEnd: OnDragEndResponder = (result: DropResult) => {
@@ -36,19 +42,15 @@ export const Lists = () => {
 
         todo.done = result.destination.droppableId === "done";
 
-        const index = result.destination.index;
-        console.log(index);
-
         const currentIndex = todos.indexOf(todo);
         todos.splice(currentIndex, 1);
 
         let newIndex = todos.indexOf(
-            todos.filter((t) => t.done === todo.done)[index]
+            todos.filter((t) => t.done === todo.done)[result.destination.index]
         );
-
         if (newIndex === -1) newIndex = todos.length;
-        todos.splice(newIndex, 0, todo);
 
+        todos.splice(newIndex, 0, todo);
         setTodos([...todos]);
         save(todos);
     };
@@ -61,31 +63,13 @@ export const Lists = () => {
                         todos={todos.filter((todo) => !todo.done)}
                         type="todo"
                         save={() => save(todos)}
-                        remove={(id) => {
-                            todos.splice(
-                                todos.indexOf(
-                                    todos.find((todo) => todo.id === id)!
-                                ),
-                                1
-                            );
-                            setTodos([...todos]);
-                            save(todos);
-                        }}
+                        removeTodo={removeTodo}
                     />
                     <TodoList
                         todos={todos.filter((todo) => todo.done)}
                         type="done"
                         save={() => save(todos)}
-                        remove={(id) => {
-                            todos.splice(
-                                todos.indexOf(
-                                    todos.find((todo) => todo.id === id)!
-                                ),
-                                1
-                            );
-                            setTodos([...todos]);
-                            save(todos);
-                        }}
+                        removeTodo={removeTodo}
                     />
                 </DragDropContext>
             </div>
@@ -107,7 +91,7 @@ export const Lists = () => {
                     const text = newTodoRef.current?.value || "";
                     if (!text) return;
 
-                    addNewTodo({
+                    addTodo({
                         id: Math.floor(Math.random() * 0xffffff),
                         text: text,
                         repeat: "never",
@@ -133,12 +117,12 @@ export const TodoList = ({
     todos,
     type,
     save,
-    remove,
+    removeTodo,
 }: {
     todos: Todo[];
     type: "todo" | "done";
     save: () => void;
-    remove: (id: number) => void;
+    removeTodo: (id: number) => void;
 }) => {
     return (
         <div className="flex flex-col items-center basis-0 flex-grow gap-4">
@@ -159,10 +143,7 @@ export const TodoList = ({
                                     index={index}
                                     todo={todo}
                                     save={save}
-                                    remove={() => {
-                                        remove(todo.id);
-                                        save();
-                                    }}
+                                    removeTodo={() => removeTodo(todo.id)}
                                 />
                             ))}
 
@@ -179,12 +160,12 @@ export const TodoCard = ({
     index,
     todo,
     save,
-    remove,
+    removeTodo,
 }: {
     index: number;
     todo: Todo;
     save: () => void;
-    remove: () => void;
+    removeTodo: () => void;
 }) => {
     const [text, setText] = useState(todo.text);
     const [textDebounced] = useDebounce(text, 500);
@@ -227,7 +208,7 @@ export const TodoCard = ({
                     />
                     <div className="flex justify-end gap-2 text-white/80 transition-colors">
                         <Trash
-                            onClick={remove}
+                            onClick={removeTodo}
                             size={20}
                             className="cursor-pointer hover:text-white"
                         />
