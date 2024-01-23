@@ -18,7 +18,7 @@ export const Lists = () => {
 
     useEffect(() => {
         if (todos.length == 0) setTodos(load());
-    }, []);
+    }, [todos]);
 
     const newTodoRef = useRef<HTMLInputElement>(null);
 
@@ -197,7 +197,7 @@ export const TodoCard = ({
 
     useEffect(() => {
         save();
-    }, [textDebounced]);
+    }, [textDebounced, save]);
 
     return (
         <Draggable draggableId={todo.id.toString()} index={index}>
