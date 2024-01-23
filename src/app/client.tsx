@@ -36,7 +36,7 @@ export const Lists = () => {
         if (!result.destination) return;
 
         const todo = todos.find(
-            (todo) => todo.id === Number(result.draggableId)
+            (todo) => todo.id === Number(result.draggableId),
         );
         if (!todo) return;
 
@@ -46,7 +46,7 @@ export const Lists = () => {
         todos.splice(currentIndex, 1);
 
         let newIndex = todos.indexOf(
-            todos.filter((t) => t.done === todo.done)[result.destination.index]
+            todos.filter((t) => t.done === todo.done)[result.destination.index],
         );
         if (newIndex === -1) newIndex = todos.length;
 
@@ -56,8 +56,8 @@ export const Lists = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-between w-full gap-8">
-            <div className="flex gap-2 w-full">
+        <div className="flex w-full flex-col items-center justify-between gap-8">
+            <div className="flex w-full gap-2">
                 <DragDropContext onDragEnd={onDragEnd}>
                     <TodoList
                         todos={todos.filter((todo) => !todo.done)}
@@ -74,7 +74,7 @@ export const Lists = () => {
                 </DragDropContext>
             </div>
             {todos.length == 0 && (
-                <div className="flex flex-col items-center justify-center flex-grow gap-2">
+                <div className="flex flex-grow flex-col items-center justify-center gap-2">
                     <h1 className="text-2xl font-bold text-stone-700">
                         No todos yet!
                     </h1>
@@ -84,7 +84,7 @@ export const Lists = () => {
                 </div>
             )}
             <form
-                className="w-full rounded-lg mb-2 border border-dashed border-stone-300"
+                className="mb-2 w-full rounded-lg border border-dashed border-stone-300"
                 onSubmit={(e) => {
                     e.preventDefault();
 
@@ -104,7 +104,7 @@ export const Lists = () => {
                 }}
             >
                 <input
-                    className="w-full rounded-lg outline-none p-4"
+                    className="w-full rounded-lg p-4 outline-none"
                     placeholder="New todo..."
                     ref={newTodoRef}
                 />
@@ -125,7 +125,7 @@ export const TodoList = ({
     removeTodo: (id: number) => void;
 }) => {
     return (
-        <div className="flex flex-col items-center basis-0 flex-grow gap-4">
+        <div className="flex flex-grow basis-0 flex-col items-center gap-4">
             <h1 className="text-2xl font-bold text-stone-700">
                 {type} {type === "todo" ? "(◡︵◡)" : "(⌐■_■)"}
             </h1>
@@ -135,7 +135,7 @@ export const TodoList = ({
                         <div
                             {...provided.droppableProps}
                             ref={provided.innerRef}
-                            className="flex flex-col items-center w-full flex-grow"
+                            className="flex w-full flex-grow flex-col items-center"
                         >
                             {todos.map((todo, index) => (
                                 <TodoCard
@@ -188,9 +188,9 @@ export const TodoCard = ({
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
                     className={merge(
-                        "flex flex-col w-full p-4 rounded-lg gap-4 mb-2 border-4 border-transparent",
+                        "mb-2 flex w-full flex-col gap-4 rounded-lg border-4 border-transparent p-4",
                         todo.colour,
-                        snapshot.isDragging && "shadow-lg border-black/10"
+                        snapshot.isDragging && "border-black/10 shadow-lg",
                     )}
                 >
                     <ContentEditable
